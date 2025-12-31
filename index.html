@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prinaince Library</title>
+    
+    <!-- Modern Font: Outfit -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Outfit', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background: linear-gradient(-45deg, #0f0c29, #302b63, #24243e, #000000);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            color: #ffffff;
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .container {
+            width: 100%;
+            max-width: 500px;
+            padding: 25px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            margin-top: 10px;
+        }
+
+        header h1 {
+            font-size: 28px;
+            font-weight: 700;
+            background: linear-gradient(to right, #00f260, #0575E6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0px 4px 15px rgba(0, 242, 96, 0.3);
+        }
+
+        header p { color: rgba(255, 255, 255, 0.6); font-size: 14px; margin-top: 5px; }
+
+        .section-title {
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 12px;
+            margin-left: 10px;
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            margin-bottom: 25px;
+            overflow: hidden;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .list-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 18px 20px;
+            text-decoration: none;
+            color: white;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            transition: 0.3s;
+            cursor: pointer;
+        }
+
+        .list-item:last-child { border-bottom: none; }
+        .list-item:hover { background: rgba(255, 255, 255, 0.1); transform: translateX(5px); }
+        .list-item:active { transform: scale(0.98); }
+
+        .item-left { display: flex; align-items: center; gap: 18px; }
+        .emoji-icon { font-size: 22px; width: 30px; text-align: center; filter: drop-shadow(0 0 5px rgba(255,255,255,0.2)); }
+        .item-text { font-size: 16px; font-weight: 500; }
+        .arrow-icon { color: rgba(255, 255, 255, 0.3); font-size: 12px; transition: 0.3s; }
+        .list-item:hover .arrow-icon { color: #fff; transform: translateX(3px); }
+        
+        .version-badge {
+            background: rgba(255, 255, 255, 0.1); padding: 4px 10px; border-radius: 20px; font-size: 11px; color: #ccc; border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .footer { text-align: center; margin-top: auto; padding: 20px 0; opacity: 0.8; }
+        .footer p { font-size: 12px; color: rgba(255, 255, 255, 0.5); }
+        .dev-name {
+            font-size: 18px; font-weight: 800; color: #fff; margin-top: 5px; text-transform: uppercase; letter-spacing: 2px;
+            background: -webkit-linear-gradient(45deg, #FF512F, #DD2476); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+
+        /* --- POPUP / MODAL STYLES --- */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            display: none; /* Hidden by default */
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal-box {
+            background: #1a1a2e;
+            width: 90%;
+            max-width: 350px;
+            border-radius: 25px;
+            padding: 30px 20px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+            transform: scale(0.8);
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .modal-emoji { font-size: 50px; margin-bottom: 15px; display: block; }
+        .modal-title { font-size: 20px; font-weight: 700; margin-bottom: 10px; color: white; }
+        .modal-text { font-size: 14px; color: #aaa; margin-bottom: 25px; line-height: 1.5; background: rgba(255,255,255,0.05); padding: 15px; border-radius: 12px; }
+
+        .share-btn {
+            background: linear-gradient(to right, #00f260, #0575E6);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 50px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            margin-bottom: 10px;
+            box-shadow: 0 5px 15px rgba(5, 117, 230, 0.4);
+            transition: transform 0.2s;
+        }
+
+        .share-btn:active { transform: scale(0.95); }
+
+        .close-btn {
+            background: transparent;
+            color: #777;
+            border: none;
+            font-size: 14px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        .close-btn:hover { color: white; }
+
+        /* Animation Classes */
+        .show-modal { display: flex; opacity: 1; }
+        .show-modal .modal-box { transform: scale(1); }
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        
+        <header>
+            <h1>Prinaince Library</h1>
+            <p>Access Premium Resources</p>
+        </header>
+
+        <!-- SECTION 1 -->
+        <div class="section-title">Join Community</div>
+        <div class="glass-card">
+            <a href="https://yourwebsite.com" class="list-item" target="_blank">
+                <div class="item-left"><span class="emoji-icon">🌐</span><span class="item-text">Visit Website</span></div>
+                <i class="fa-solid fa-chevron-right arrow-icon"></i>
+            </a>
+            <a href="https://instagram.com" class="list-item" target="_blank">
+                <div class="item-left"><span class="emoji-icon">📸</span><span class="item-text">Follow on Insta</span></div>
+                <i class="fa-solid fa-chevron-right arrow-icon"></i>
+            </a>
+            <a href="https://t.me" class="list-item" target="_blank">
+                <div class="item-left"><span class="emoji-icon">✈️</span><span class="item-text">Join Telegram</span></div>
+                <i class="fa-solid fa-chevron-right arrow-icon"></i>
+            </a>
+            <a href="https://whatsapp.com" class="list-item" target="_blank">
+                <div class="item-left"><span class="emoji-icon">💬</span><span class="item-text">Join WhatsApp Channel</span></div>
+                <i class="fa-solid fa-chevron-right arrow-icon"></i>
+            </a>
+        </div>
+
+        <!-- SECTION 2 -->
+        <div class="section-title">Support & Info</div>
+        <div class="glass-card">
+            <a href="LINK_HERE" class="list-item" target="_blank">
+                <div class="item-left"><span class="emoji-icon">⭐</span><span class="item-text">Rate us</span></div>
+                <i class="fa-solid fa-chevron-right arrow-icon"></i>
+            </a>
+            <a href="LINK_HERE" class="list-item" target="_blank">
+                <div class="item-left"><span class="emoji-icon">📩</span><span class="item-text">Feedback</span></div>
+                <i class="fa-solid fa-chevron-right arrow-icon"></i>
+            </a>
+            <a href="LINK_HERE" class="list-item" target="_blank">
+                <div class="item-left"><span class="emoji-icon">🛡️</span><span class="item-text">Privacy & Policy</span></div>
+                <i class="fa-solid fa-chevron-right arrow-icon"></i>
+            </a>
+
+            <!-- Share App Button (Triggers Popup) -->
+            <div class="list-item" onclick="openSharePopup()">
+                <div class="item-left"><span class="emoji-icon">🚀</span><span class="item-text">Share App</span></div>
+                <i class="fa-solid fa-chevron-right arrow-icon"></i>
+            </div>
+
+            <div class="list-item">
+                <div class="item-left"><span class="emoji-icon">🤖</span><span class="item-text">Version</span></div>
+                <span class="version-badge">v1.0.0</span>
+            </div>
+            <a href="LINK_HERE" class="list-item" target="_blank">
+                <div class="item-left"><span class="emoji-icon">👨‍💻</span><span class="item-text">About Developer</span></div>
+                <i class="fa-solid fa-chevron-right arrow-icon"></i>
+            </a>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <p>Designed & Developed by</p>
+            <div class="dev-name">Mr BLACKHEART</div>
+        </div>
+    </div>
+
+    <!-- CUSTOM SHARE POPUP (Hidden by default) -->
+    <div class="modal-overlay" id="shareModal">
+        <div class="modal-box">
+            <span class="modal-emoji">🎁</span>
+            <div class="modal-title">Share with Friends</div>
+            
+            <!-- Message jo share hoga -->
+            <div class="modal-text" id="shareMessage">
+                Hey! Check out *Prinaince Library* for premium stuff. Download now: <br> 
+                <span style="color:#00f260;">https://yourwebsite.com</span>
+            </div>
+
+            <button class="share-btn" onclick="triggerNativeShare()">
+                <i class="fa-solid fa-share-nodes"></i>&nbsp; Share Now
+            </button>
+            
+            <button class="close-btn" onclick="closeSharePopup()">Cancel</button>
+        </div>
+    </div>
+
+    <script>
+        // Data to be shared
+        const shareData = {
+            title: 'Prinaince Library',
+            text: 'Hey! Check out Prinaince Library for premium stuff. Download now:',
+            url: 'https://yourwebsite.com' // Yahan apna asli link daalna
+        };
+
+        const modal = document.getElementById('shareModal');
+
+        // Function to open the custom popup
+        function openSharePopup() {
+            modal.classList.add('show-modal');
+        }
+
+        // Function to close the popup
+        function closeSharePopup() {
+            modal.classList.remove('show-modal');
+        }
+
+        // Function triggers the REAL system share (Whatsapp/Insta list)
+        async function triggerNativeShare() {
+            if (navigator.share) {
+                try {
+                    await navigator.share(shareData);
+                    // Agar share success ho jaye ya user close kar de, to popup band karo
+                    closeSharePopup();
+                } catch (err) {
+                    console.log('Share canceled or failed', err);
+                }
+            } else {
+                // Agar browser support na kare (Like Desktop old browsers)
+                alert("Sharing is not supported on this device/browser. Copying link instead!");
+                navigator.clipboard.writeText(shareData.text + " " + shareData.url);
+                closeSharePopup();
+            }
+        }
+
+        // Close modal if clicked outside the box
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                closeSharePopup();
+            }
+        }
+    </script>
+
+</body>
+  </html>
