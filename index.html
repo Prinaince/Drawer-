@@ -20,9 +20,9 @@
         body {
             background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
             color: #ffffff;
-            height: 100dvh; /* Dynamic Viewport Height for Mobile */
+            height: 100dvh;
             width: 100vw;
-            overflow: hidden; /* No Scroll */
+            overflow: hidden;
             display: flex;
             justify-content: center;
         }
@@ -32,16 +32,15 @@
             max-width: 450px;
             height: 100%;
             padding: 15px 20px;
-            padding-bottom: calc(15px + env(safe-area-inset-bottom)); /* Notch/Home Bar Safe Area */
+            padding-bottom: calc(15px + env(safe-area-inset-bottom));
             display: flex;
             flex-direction: column;
         }
 
-        /* HEADER SECTION */
         header {
             text-align: center;
             padding-top: 5px;
-            flex-shrink: 0; /* Header shrink nahi hoga */
+            flex-shrink: 0;
         }
 
         header h1 {
@@ -59,17 +58,17 @@
             color: rgba(255, 255, 255, 0.6);
         }
 
-        /* FLEXIBLE MIDDLE SECTION */
         .content-wrapper {
-            flex-grow: 1; /* Ye bachi hui jagah lega */
+            flex-grow: 1;
             display: flex;
             flex-direction: column;
-            justify-content: center; /* Content ko beech me rakhega */
-            gap: 15px; /* Sections ke beech gap */
-            min-height: 0; /* Overflow rokne ke liye zaroori */
+            justify-content: center;
+            gap: 15px;
+            min-height: 0;
+            overflow-y: auto; /* Allow scroll if content is too tall */
+            scrollbar-width: none;
         }
 
-        /* CARD STYLE */
         .glass-card {
             background: rgba(255, 255, 255, 0.04);
             backdrop-filter: blur(12px);
@@ -80,17 +79,20 @@
             flex-direction: column;
         }
 
-        /* LIST ITEMS */
         .list-item {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 14px 18px; /* Thodi si padding kam ki taaki fit aaye */
+            padding: 14px 18px;
             text-decoration: none;
             color: rgba(255, 255, 255, 0.95);
             border-bottom: 1px solid rgba(255, 255, 255, 0.05);
             transition: 0.2s;
             cursor: pointer;
+            background: transparent;
+            width: 100%;
+            border: none;
+            text-align: left;
         }
 
         .list-item:last-child { border-bottom: none; }
@@ -122,11 +124,10 @@
             letter-spacing: 1px;
         }
 
-        /* FOOTER - Always visible now */
         .footer {
             text-align: center;
             padding-top: 10px;
-            flex-shrink: 0; /* Footer shrink nahi hoga */
+            flex-shrink: 0;
         }
         .footer p { font-size: 11px; color: rgba(255, 255, 255, 0.4); }
         .dev-name {
@@ -136,7 +137,6 @@
             letter-spacing: 1.5px; margin-top: 3px;
         }
 
-        /* POPUP MODAL */
         .modal-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(8px);
@@ -174,29 +174,36 @@
             <p>Premium Resources Hub</p>
         </header>
 
-        <!-- CONTENT MIDDLE (Auto adjusts) -->
+        <!-- CONTENT MIDDLE -->
         <div class="content-wrapper">
             
             <!-- SECTION 1 -->
             <div>
                 <div class="section-label">Community</div>
                 <div class="glass-card">
-                    <a href="https://prinaince.github.io/Website/" class="list-item" target="_blank">
+                    <!-- WEBSITE (Browser) -->
+                    <div class="list-item" onclick="openLink('https://prinaince.github.io/Website/', 'web')">
                         <div class="item-left"><span class="emoji-icon">🌐</span><span class="item-text">Visit Website</span></div>
                         <i class="fa-solid fa-chevron-right arrow-icon"></i>
-                    </a>
-                    <a href="https://www.instagram.com/prince.rajpoot16?igsh=ZHpocnByd2R1Zzhl" class="list-item" target="_blank">
+                    </div>
+
+                    <!-- INSTAGRAM (App Redirect) -->
+                    <div class="list-item" onclick="openLink('https://www.instagram.com/prince.rajpoot16?igsh=ZHpocnByd2R1Zzhl', 'insta')">
                         <div class="item-left"><span class="emoji-icon">📸</span><span class="item-text">Follow on Insta</span></div>
                         <i class="fa-solid fa-chevron-right arrow-icon"></i>
-                    </a>
-                    <a href="https://bit.ly/4jlGBGV" class="list-item" target="_blank">
+                    </div>
+
+                    <!-- TELEGRAM (App Redirect) -->
+                    <div class="list-item" onclick="openLink('https://bit.ly/4jlGBGV', 'web')">
                         <div class="item-left"><span class="emoji-icon">✈️</span><span class="item-text">Join Telegram</span></div>
                         <i class="fa-solid fa-chevron-right arrow-icon"></i>
-                    </a>
-                    <a href="https://whatsapp.com/channel/0029Vb7prcy6buMHfxPawC3V" class="list-item" target="_blank">
+                    </div>
+
+                    <!-- WHATSAPP (App Redirect) -->
+                    <div class="list-item" onclick="openLink('https://whatsapp.com/channel/0029Vb7prcy6buMHfxPawC3V', 'whatsapp')">
                         <div class="item-left"><span class="emoji-icon">💬</span><span class="item-text">Join WhatsApp Channel</span></div>
                         <i class="fa-solid fa-chevron-right arrow-icon"></i>
-                    </a>
+                    </div>
                 </div>
             </div>
 
@@ -204,18 +211,18 @@
             <div>
                 <div class="section-label">Menu</div>
                 <div class="glass-card">
-                    <a href="https://prinaince.github.io/Website/#reviews" class="list-item" target="_blank">
+                    <div class="list-item" onclick="openLink('https://prinaince.github.io/Website/#reviews', 'web')">
                         <div class="item-left"><span class="emoji-icon">⭐</span><span class="item-text">Rate us</span></div>
                         <i class="fa-solid fa-chevron-right arrow-icon"></i>
-                    </a>
-                    <a href="https://prinaince.github.io/Website/#contact" class="list-item" target="_blank">
+                    </div>
+                    <div class="list-item" onclick="openLink('https://prinaince.github.io/Website/#contact', 'web')">
                         <div class="item-left"><span class="emoji-icon">📩</span><span class="item-text">Feedback</span></div>
                         <i class="fa-solid fa-chevron-right arrow-icon"></i>
-                    </a>
-                    <a href="https://prinaince.github.io/Privacy-policy-/" class="list-item" target="_blank">
+                    </div>
+                    <div class="list-item" onclick="openLink('https://prinaince.github.io/Privacy-policy-/', 'web')">
                         <div class="item-left"><span class="emoji-icon">🛡️</span><span class="item-text">Privacy Policy</span></div>
                         <i class="fa-solid fa-chevron-right arrow-icon"></i>
-                    </a>
+                    </div>
 
                     <div class="list-item" onclick="openSharePopup()">
                         <div class="item-left"><span class="emoji-icon">🚀</span><span class="item-text">Share App</span></div>
@@ -226,10 +233,11 @@
                         <div class="item-left"><span class="emoji-icon">🤖</span><span class="item-text">Version</span></div>
                         <span class="version-badge">1.0.0</span>
                     </div>
-                    <a href="https://www.instagram.com/prince.rajpoot16?igsh=ZHpocnByd2R1Zzhl" class="list-item" target="_blank">
+                    
+                    <div class="list-item" onclick="openLink('https://www.instagram.com/prince.rajpoot16?igsh=ZHpocnByd2R1Zzhl', 'insta')">
                         <div class="item-left"><span class="emoji-icon">👨‍💻</span><span class="item-text">About Developer</span></div>
                         <i class="fa-solid fa-chevron-right arrow-icon"></i>
-                    </a>
+                    </div>
                 </div>
             </div>
 
@@ -258,17 +266,57 @@
     </div>
 
     <script>
-        const shareData = { title: 'Prinaince Library', text: 'Check out Prinaince Library app!', url: 'https://yourwebsite.com' };
+        // SMART LINK HANDLER FOR WEBVIEWS
+        function openLink(url, type) {
+            var isAndroid = navigator.userAgent.toLowerCase().indexOf("android") > -1;
+            
+            if (isAndroid) {
+                // Android Specific 'Intent' Logic to force App Open
+                if (type === 'insta') {
+                    // Extract username if possible or just use the full URL with intent
+                    // Using package scheme to force Instagram App
+                    var cleanUrl = url.replace('https://', '');
+                    var intentUrl = 'intent://' + cleanUrl + '#Intent;package=com.instagram.android;scheme=https;end';
+                    window.location.href = intentUrl;
+                    return;
+                }
+                
+                if (type === 'whatsapp') {
+                    // Using package scheme to force WhatsApp
+                    var cleanUrl = url.replace('https://', '');
+                    var intentUrl = 'intent://' + cleanUrl + '#Intent;package=com.whatsapp;scheme=https;end';
+                    window.location.href = intentUrl;
+                    return;
+                }
+            }
+
+            // Fallback / Standard method for other links or iOS
+            // _blank usually forces the system browser in most WebViews
+            window.open(url, '_blank', 'noopener,noreferrer');
+        }
+
+        const shareData = { title: 'Prinaince Library', text: 'Check out Prinaince Library app!', url: 'https://bit.ly/4jh3sDy' };
         const modal = document.getElementById('shareModal');
+        
         function openSharePopup() { modal.classList.add('show-modal'); }
         function closeSharePopup() { modal.classList.remove('show-modal'); }
+        
         async function triggerNativeShare() {
             if (navigator.share) {
                 try { await navigator.share(shareData); closeSharePopup(); } catch (err) {}
             } else {
-                navigator.clipboard.writeText(shareData.url); alert("Link copied!"); closeSharePopup();
+                // Fallback text copy
+                var tempInput = document.createElement("input");
+                tempInput.value = shareData.url;
+                document.body.appendChild(tempInput);
+                tempInput.select();
+                document.execCommand("copy");
+                document.body.removeChild(tempInput);
+                alert("Link copied!"); 
+                closeSharePopup();
             }
         }
+        
         window.onclick = function(e) { if (e.target == modal) closeSharePopup(); }
     </script>
 
